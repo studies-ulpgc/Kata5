@@ -1,30 +1,37 @@
-package software.ulpgc.kata4.app;
+package software.ulpgc.kata5.app;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
-import software.ulpgc.kata4.model.Movie;
-import software.ulpgc.kata4.tasks.HistogramBuilder;
-import software.ulpgc.kata4.viewmodel.Histogram;
+import software.ulpgc.kata5.architecture.io.Store;
+import software.ulpgc.kata5.architecture.model.Movie;
+import software.ulpgc.kata5.architecture.tasks.HistogramBuilder;
+import software.ulpgc.kata5.architecture.viewmodel.Histogram;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.stream.Stream;
 
-public class Main extends JFrame {
-    public Main() {
+public class Desktop extends JFrame {
+    private final Store store;
+
+    public static Desktop with(Store store) {
+        return new Desktop(store);
+    }
+
+    private Desktop(Store store) {
+        this.store = store;
         this.setTitle("Histogram Display");
         this.setSize(800, 600);
         this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
 
-    public static void main(String[] args) {
-        Main main = new Main();
-        main.display(histogramOf(movies()));
-        main.setVisible(true);
+    public Desktop display() {
+        display(histogramOf(movies()));
+        return this;
     }
 
     private void display(Histogram histogram) {
@@ -63,8 +70,8 @@ public class Main extends JFrame {
     }
 
     private static Stream<Movie> movies() {
-        return new RemoteMovieLoader(MovieDeserializer::fromTsv)
-                .loadAll()
+        return new RemoteStore(MovieDeserializer::fromTsv)
+                .movies()
                 .limit(1000)
                 .filter(m -> m.year() >= 1900)
                 .filter(m -> m.year() <= 2025);

@@ -1,7 +1,7 @@
-package software.ulpgc.kata4.tasks;
+package software.ulpgc.kata5.architecture.tasks;
 
-import software.ulpgc.kata4.viewmodel.Histogram;
-import software.ulpgc.kata4.model.Movie;
+import software.ulpgc.kata5.architecture.viewmodel.Histogram;
+import software.ulpgc.kata5.architecture.model.Movie;
 
 import java.util.HashMap;
 import java.util.Map;
