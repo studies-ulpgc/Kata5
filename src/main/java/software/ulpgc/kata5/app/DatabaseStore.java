@@ -25,6 +25,20 @@ public class DatabaseStore implements Store {
         }
     }
 
+    @Override
+    public Stream<Movie> moviesInRange(int from, int to) {
+        try {
+            return moviesIn(resultSetInRange(from, to));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private ResultSet resultSetInRange(int from, int to) throws SQLException {
+        return connection.createStatement()
+                .executeQuery("SELECT * FROM movies WHERE year >= " + from + " AND year <= " + to);
+    }
+
     private Stream<Movie> moviesIn(ResultSet resultSet) {
         return Stream.generate(()->nextMovieIn(resultSet))
                 .onClose(()->close(resultSet))

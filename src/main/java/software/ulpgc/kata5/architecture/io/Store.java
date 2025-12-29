@@ -6,4 +6,5 @@ import java.util.stream.Stream;
 
 public interface Store {
     Stream<Movie> movies();
+    Stream<Movie> moviesInRange(int from, int to);
 }
