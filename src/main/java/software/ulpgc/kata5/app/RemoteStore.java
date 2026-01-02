@@ -28,13 +28,6 @@ public class RemoteStore implements Store {
         }
     }
 
-    @Override
-    public Stream<Movie> moviesInRange(int from, int to) {
-        return movies()
-                .filter(m -> m.year() >= from)
-                .filter(m -> m.year() >= to);
-    }
-
     private Stream<Movie> moviesIn(URL url) throws IOException {
         return moviesIn(url.openConnection());
     }
